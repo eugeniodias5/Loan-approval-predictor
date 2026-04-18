@@ -1,0 +1,1 @@
+Model trained based on the: [loan-approval-prediction-dataset](https://www.kaggle.com/datasets/architsharma01/loan-approval-prediction-dataset)
