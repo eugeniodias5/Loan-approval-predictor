@@ -3,6 +3,23 @@ import numpy as np
 from scipy import optimize
 
 
+class StandardScaler(BaseEstimator, TransformerMixin):
+    def __init__(self):
+        super().__init__()
+
+    def fit(self, X, y=None):
+        self.columns = X.select_dtypes(include=[np.number]).columns
+
+        self.means_ = X[self.columns].mean()
+        self.stds_ = X[self.columns].std(ddof=0).replace(0, 1)
+        return self
+
+    def transform(self, X):
+        new_X = X.copy()
+        new_X[self.columns] = (X[self.columns] - self.means_) / self.stds_
+        return new_X
+
+
 class GaussianTransformer(BaseEstimator, TransformerMixin):
     def __init__(self, columns, method='log', standardize=True):
         self.columns = columns
