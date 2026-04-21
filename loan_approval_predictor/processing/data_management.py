@@ -1,21 +1,7 @@
+import joblib
 import pandas as pd
 
-
-DATA_COLUMNS = [
-               "no_of_dependents",
-               "education",
-                "self_employed",
-                "income_annum",
-                "loan_amount",
-                "loan_term",
-                "cibil_score",
-                "residential_assets_value",
-                "commercial_assets_value",
-                "luxury_assets_value",
-                "bank_asset_value",
-                "loan_status"
-]
-
+from config import DATA_COLUMNS
 
 
 def load_data(data: dict):
@@ -35,4 +21,12 @@ def load_data(data: dict):
 
     df = pd.DataFrame(data)
 
-    return data
+    return df
+
+
+def save_pipeline(model, path):
+    joblib.dump(model, path)
+
+
+def load_pipeline(path):
+    return joblib.load(path)
