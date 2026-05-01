@@ -1,13 +1,13 @@
 from sklearn.model_selection import train_test_split, GridSearchCV
 
 
-from config.config import TRAIN_RATIO, MODELS
-from pipeline import get_pipeline, get_voting_pipeline
-from processing.data_management import load_data, save_pipeline
+from loan_approval_predictor.config.config import TRAIN_RATIO, MODELS
+from loan_approval_predictor.pipeline import get_pipeline, get_voting_pipeline
+from loan_approval_predictor.processing.data_management import load_data, save_pipeline
 
-from evaluate import evaluate_model
+from loan_approval_predictor.evaluate import evaluate_model
 
-from config.config import RANDOM_SEED
+from loan_approval_predictor.config.config import RANDOM_SEED
 
 
 def train_model():

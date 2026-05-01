@@ -10,9 +10,9 @@ from sklearn.ensemble import (
     VotingClassifier,
 )
 
-from processing.preprocessors import GaussianTransformer, StandardScaler
+from loan_approval_predictor.processing.preprocessors import GaussianTransformer, StandardScaler
 
-from config.config import (
+from loan_approval_predictor.config.config import (
     LOG_FEATURES,
     NUMERICAL_FEATURES,
     CATEGORICAL_FEATURES,
