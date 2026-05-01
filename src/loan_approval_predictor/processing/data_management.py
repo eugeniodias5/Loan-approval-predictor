@@ -12,7 +12,9 @@ from loan_approval_predictor.config.config import (
 )
 
 
-def load_data(path=DS_PATH):
+def load_data(path=None):
+    if path is None:
+        path = DS_PATH
     df = pd.read_csv(path)
     # Strip whitespace from column names
     df.columns = df.columns.str.strip()

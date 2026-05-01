@@ -10,8 +10,8 @@ from loan_approval_predictor.evaluate import evaluate_model
 from loan_approval_predictor.config.config import RANDOM_SEED
 
 
-def train_model():
-    X, y = load_data()
+def train_model(data_path=None):
+    X, y = load_data(data_path)
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, y, train_size=TRAIN_RATIO, random_state=RANDOM_SEED
@@ -41,6 +41,3 @@ def train_model():
 
     return voting_pipeline
 
-
-if __name__ == "__main__":
-    train_model()

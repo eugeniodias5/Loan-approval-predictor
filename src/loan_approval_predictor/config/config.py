@@ -1,11 +1,12 @@
 from pathlib import Path
 
 PACKAGE_ROOT = Path(__file__).parent.parent
+PROJECT_ROOT = PACKAGE_ROOT.parent.parent
 
 RANDOM_SEED = 42
 
 # ------ PATHS --------
-DS_PATH = PACKAGE_ROOT / "datasets" / "loan_approval_dataset.csv"
+DS_PATH = PROJECT_ROOT / "datasets" / "loan_approval_dataset.csv"
 SAVE_PATH = PACKAGE_ROOT / "models" / "pipeline.pkl"
 LOAD_PATH = PACKAGE_ROOT / "models" / "pipeline.pkl"
 
