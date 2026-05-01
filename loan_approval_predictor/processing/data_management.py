@@ -3,17 +3,24 @@ import os
 import joblib
 import pandas as pd
 
-from config.config import FEATURES, DS_PATH, SAVE_PATH, LOAD_PATH, TARGET
+from loan_approval_predictor.config.config import (
+    FEATURES,
+    DS_PATH,
+    SAVE_PATH,
+    LOAD_PATH,
+    TARGET,
+)
 
 
-def load_data(path = DS_PATH):
+def load_data(path=DS_PATH):
     df = pd.read_csv(path)
     # Strip whitespace from column names
     df.columns = df.columns.str.strip()
 
-    X = df.drop(columns=[TARGET])
-    y = df[TARGET]
-    
+    has_target = TARGET in df.columns
+    X = df.drop(columns=[TARGET]) if has_target else df.copy()
+    y = df[TARGET] if has_target else None
+
     missing = FEATURES.copy()
     additional = []
     # Check if data is in the correct format
@@ -24,14 +31,20 @@ def load_data(path = DS_PATH):
             missing.remove(column)
 
     if len(additional) > 0:
-        print(f"The following data column was passed and it is not expected: {additional}. It will be ignored.")
-    if len(missing) > 0 :
-        print(f"The following data column is missing: {missing}, it might affect model performance.")
+        print(
+            f"The following data column was passed and it is not expected: {additional}. It will be ignored."
+        )
+    if len(missing) > 0:
+        print(
+            f"The following data column is missing: {missing}, it might affect model performance."
+        )
 
     # Remove additional columns
     X = X.drop(columns=additional, inplace=False)
 
-    return X, y
+    if has_target:
+        return X, y
+    return X
 
 
 def save_pipeline(model, path=SAVE_PATH):

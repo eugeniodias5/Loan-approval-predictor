@@ -1,4 +1,5 @@
-from processing.data_management import load_pipeline, load_data
+from loan_approval_predictor.processing.data_management import load_pipeline, load_data
+
 
 def predict(X):
     pipeline = load_pipeline()

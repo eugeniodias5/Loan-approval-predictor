@@ -7,19 +7,24 @@ from processing.data_management import load_data, save_pipeline
 
 from evaluate import evaluate_model
 
-from config.config import TARGET, RANDOM_SEED
+from config.config import RANDOM_SEED
+
 
 def train_model():
     X, y = load_data()
 
-    X_train, X_test, y_train, y_test = train_test_split(X, y, train_size=TRAIN_RATIO, random_state=RANDOM_SEED)
+    X_train, X_test, y_train, y_test = train_test_split(
+        X, y, train_size=TRAIN_RATIO, random_state=RANDOM_SEED
+    )
 
     models_pipeline = {}
 
     for model_name in MODELS.keys():
         pipeline = get_pipeline(model_name)
         param_grid = MODELS[model_name]
-        grid_search = GridSearchCV(pipeline, param_grid, cv=5, n_jobs=-1, scoring='f1_macro')
+        grid_search = GridSearchCV(
+            pipeline, param_grid, cv=5, n_jobs=-1, scoring="f1_macro"
+        )
         grid_search.fit(X_train, y_train)
         best_model = grid_search.best_estimator_
         models_pipeline[model_name] = best_model

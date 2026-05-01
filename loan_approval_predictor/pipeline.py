@@ -4,19 +4,30 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 
 from sklearn.linear_model import LogisticRegression
-from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier, VotingClassifier
+from sklearn.ensemble import (
+    RandomForestClassifier,
+    GradientBoostingClassifier,
+    VotingClassifier,
+)
 
 from processing.preprocessors import GaussianTransformer, StandardScaler
 
-from config.config import LOG_FEATURES, NUMERICAL_FEATURES, CATEGORICAL_FEATURES, RANDOM_SEED
+from config.config import (
+    LOG_FEATURES,
+    NUMERICAL_FEATURES,
+    CATEGORICAL_FEATURES,
+    RANDOM_SEED,
+)
 
 
 def _get_preprocessor():
-    preprocessor = ColumnTransformer(transformers=[
-        ("log", GaussianTransformer(method='yeo-johnson'), LOG_FEATURES),
-        ("num", StandardScaler(), NUMERICAL_FEATURES),
-        ("cat", OneHotEncoder(handle_unknown='ignore'), CATEGORICAL_FEATURES)
-    ])
+    preprocessor = ColumnTransformer(
+        transformers=[
+            ("log", GaussianTransformer(method="yeo-johnson"), LOG_FEATURES),
+            ("num", StandardScaler(), NUMERICAL_FEATURES),
+            ("cat", OneHotEncoder(handle_unknown="ignore"), CATEGORICAL_FEATURES),
+        ]
+    )
     return preprocessor
 
 
@@ -31,15 +42,12 @@ def get_pipeline(model_type):
         raise ValueError(f"Unknown model type: {model_type}")
 
     preprocessor = _get_preprocessor()
-    pipeline = Pipeline([
-        ("preprocessor", preprocessor),
-        ("classifier", classifier)
-    ])
+    pipeline = Pipeline([("preprocessor", preprocessor), ("classifier", classifier)])
     return pipeline
 
 
 def get_voting_pipeline(models):
-    voting_pipeline = Pipeline([
-        ("classifier", VotingClassifier(estimators=models, voting='soft'))
-    ])
+    voting_pipeline = Pipeline(
+        [("classifier", VotingClassifier(estimators=models, voting="soft"))]
+    )
     return voting_pipeline
