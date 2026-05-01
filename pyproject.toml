@@ -6,7 +6,7 @@ build-backend = "setuptools.build_meta"
 name = "loan-predictor"
 version = "0.1.0"
 authors = [
-    { name = "Eugen", email = "ediasribeiro@lirmm.fr" },
+    { name = "Eugenio Dias", email = "ediasribeiro@lirmm.fr" },
 ]
 description = "A machine learning model to predict loan approval."
 requires-python = ">=3.12"
