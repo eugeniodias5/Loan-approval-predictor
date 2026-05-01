@@ -1,1 +1,0 @@
-from loan_approval_predictor.predict import predict
