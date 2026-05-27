@@ -1,0 +1,5 @@
+name: Loan-Approval-Predictor
+
+entry_points:
+    main:
+        command: "python train/train.py"
