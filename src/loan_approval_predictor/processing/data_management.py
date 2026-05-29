@@ -3,6 +3,8 @@ import os
 import joblib
 import pandas as pd
 
+import mlflow
+
 from loan_approval_predictor.config.config import (
     FEATURES,
     DS_PATH,
@@ -51,7 +53,8 @@ def load_data(path=None):
 
 def save_pipeline(model, path=SAVE_PATH):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    joblib.dump(model, path)
+    # joblib.dump(model, path)
+    mlflow.sklearn.log_model(model, "loan_approval_model")
 
 
 def load_pipeline(path=LOAD_PATH):

@@ -1,5 +1,5 @@
 from sklearn.model_selection import train_test_split, GridSearchCV
-
+import mlflow
 
 from loan_approval_predictor.config.config import TRAIN_RATIO, MODELS
 from loan_approval_predictor.pipeline import get_pipeline, get_voting_pipeline
@@ -29,6 +29,7 @@ def train_model(data_path=None):
         best_model = grid_search.best_estimator_
         models_pipeline[model_name] = best_model
         print(f"Best parameters for {model_name}: {grid_search.best_params_}")
+        mlflow.log_params({f"{model_name}__{k}": v for k, v in grid_search.best_params_.items()})
 
     # Geting the best models for the voting classifier
     best_models = [(name, model) for name, model in models_pipeline.items()]
