@@ -54,7 +54,10 @@ def load_data(path=None):
 def save_pipeline(model, path=SAVE_PATH):
     os.makedirs(os.path.dirname(path), exist_ok=True)
     # joblib.dump(model, path)
-    mlflow.sklearn.log_model(model, "loan_approval_model")
+    mlflow.sklearn.log_model(
+        model, 
+        "loan_approval_model",
+        code_paths=["src/loan_approval_predictor"])
 
 
 def load_pipeline(path=LOAD_PATH):
