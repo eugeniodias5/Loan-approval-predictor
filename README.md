@@ -34,7 +34,7 @@ Once a model has been logged, you can serve it as a REST API with `mlflow models
 2. Start the server, pointing at the logged model and choosing a port:
 
 ```bash
-mlflow models serve -m runs:/<run_id>/loan_approval_model --port <port>
+mlflow models serve -m runs:/<run_id>/loan_approval_model --port <port> --env-manager local
 ```
 
 - `<run_id>`: ID of the run that logged the model (e.g. `e881406e7ca54fddaff0b9d62a69e832`).
@@ -61,5 +61,46 @@ curl.exe -X POST http://127.0.0.1:1234/invocations `
 The server responds with the model's prediction, for example:
 
 ```json
-{"predictions": ["Approved"]}
+{"predictions": ["Approved"]} 
+```
+
+## Connecting to MySQL database
+
+Instead of the default SQLite backend, you can use MySQL to store MLflow tracking data.
+
+1. Install [MySQL](https://dev.mysql.com/downloads/installer/) and create a database and user:
+
+```sql
+CREATE USER 'loan_user'@'localhost' IDENTIFIED BY 'password';
+CREATE DATABASE loan_db;
+GRANT ALL PRIVILEGES ON loan_db.* TO 'loan_user'@'localhost';
+FLUSH PRIVILEGES;
+```
+
+2. Start the MLflow server pointing at the MySQL backend:
+
+```bash
+mlflow server --host 0.0.0.0 --port 5000 \
+  --backend-store-uri mysql+pymysql://loan_user:password@localhost/loan_db \
+  --default-artifact-root ./mlruns
+```
+
+3. Set the tracking URI so your training runs are sent to this server:
+
+```bash
+# PowerShell
+$env:MLFLOW_TRACKING_URI = "http://localhost:5000"
+
+# Linux / macOS
+export MLFLOW_TRACKING_URI="http://localhost:5000"
+```
+
+From here, run training and serve the model as described in the sections above. To serve a registered model version or alias instead of a run artifact, replace the `-m` argument:
+
+```bash
+# By version number
+mlflow models serve -m models:/loan_approval_model/1 --port <port> --env-manager local
+
+# By alias (e.g. champion, staging)
+mlflow models serve -m models:/loan_approval_model@champion --port <port> --env-manager local
 ```
