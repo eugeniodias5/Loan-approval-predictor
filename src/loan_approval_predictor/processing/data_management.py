@@ -20,6 +20,9 @@ def load_data(path=None):
     df = pd.read_csv(path)
     # Strip whitespace from column names
     df.columns = df.columns.str.strip()
+    
+    obj_cols = df.select_dtypes(include="object").columns
+    df[obj_cols] = df[obj_cols].apply(lambda s: s.str.strip())
 
     has_target = TARGET in df.columns
     X = df.drop(columns=[TARGET]) if has_target else df.copy()
@@ -53,7 +56,9 @@ def load_data(path=None):
 
 def save_pipeline(model, path=SAVE_PATH):
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    # joblib.dump(model, path)
+    
+    joblib.dump(model, path)
+    
     mlflow.sklearn.log_model(
         model, 
         "loan_approval_model",
