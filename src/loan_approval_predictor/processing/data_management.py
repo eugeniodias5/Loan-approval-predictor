@@ -68,6 +68,7 @@ def load_data(path=None):
 
 
 def save_pipeline(model):
+    LOCAL_PATHS = os.environ.get("LOCAL_PATHS", "true").lower() == "true"
     path = SAVE_PATH
     if not LOCAL_PATHS:
         path = os.environ.get("SAVE_PATH", None)
@@ -91,6 +92,7 @@ def save_pipeline(model):
 
 def load_pipeline():
     path = LOAD_PATH
+    LOCAL_PATHS = os.environ.get("LOCAL_PATHS", "true").lower() == "true"
     if not LOCAL_PATHS:
         path = os.environ.get("LOAD_PATH", None)
     

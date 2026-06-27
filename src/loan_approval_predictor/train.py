@@ -4,11 +4,11 @@ import mlflow
 from loan_approval_predictor.config.config import TRAIN_RATIO, MODELS
 from loan_approval_predictor.pipeline import get_pipeline, get_voting_pipeline
 from loan_approval_predictor.processing.data_management import load_data, save_pipeline
+
 from loan_approval_predictor.evaluate import evaluate_model
+
 from loan_approval_predictor.config.config import RANDOM_SEED
 
-from dotenv import load_dotenv
-load_dotenv()  # Load environment variables
 
 def train_model(data_path=None):
     X, y = load_data(data_path)
