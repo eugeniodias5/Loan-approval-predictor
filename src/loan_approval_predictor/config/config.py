@@ -6,6 +6,9 @@ PROJECT_ROOT = PACKAGE_ROOT.parent.parent
 RANDOM_SEED = 42
 
 # ------ PATHS --------
+LOCAL_PATHS = False
+
+# The following paths are used for local development. Otherwise, the paths are set as environment variables in the deployment environment.
 DS_PATH = PROJECT_ROOT / "datasets" / "loan_approval_dataset.csv"
 SAVE_PATH = PACKAGE_ROOT / "models" / "pipeline.pkl"
 LOAD_PATH = PACKAGE_ROOT / "models" / "pipeline.pkl"

@@ -15,8 +15,21 @@ from loan_approval_predictor.config.config import (
 
 
 def load_data(path=None):
+    local_paths = os.environ.get("LOCAL_PATHS", "true").lower() == "true"
     if path is None:
-        path = DS_PATH
+        if local_paths:
+            path = DS_PATH
+    else:
+        path = os.environ.get("DS_PATH", None)
+    
+    # Check if the path is valid
+    if path is None or not os.path.exists(path):
+        raise FileNotFoundError(
+            f"Data file not found. Please check the path: {path}. "
+            "You can set the path using the DS_PATH environment variable, "
+            "or set LOCAL_PATHS to True."
+        )
+    
     df = pd.read_csv(path)
     # Strip whitespace from column names
     df.columns = df.columns.str.strip()
@@ -54,7 +67,18 @@ def load_data(path=None):
     return X
 
 
-def save_pipeline(model, path=SAVE_PATH):
+def save_pipeline(model):
+    path = SAVE_PATH
+    if not LOCAL_PATHS:
+        path = os.environ.get("SAVE_PATH", None)
+    
+    if path is None or not os.path.exists(os.path.dirname(path)):
+        raise ValueError(
+            "SAVE_PATH environment variable is not set or does not exist. " \
+            "Please set it to the desired path for saving the model "
+            "or set LOCAL_PATHS to True."
+        )
+        
     os.makedirs(os.path.dirname(path), exist_ok=True)
     
     joblib.dump(model, path)
@@ -65,5 +89,16 @@ def save_pipeline(model, path=SAVE_PATH):
         code_paths=["src/loan_approval_predictor"])
 
 
-def load_pipeline(path=LOAD_PATH):
+def load_pipeline():
+    path = LOAD_PATH
+    if not LOCAL_PATHS:
+        path = os.environ.get("LOAD_PATH", None)
+    
+    if path is None or not os.path.exists(path):
+        raise FileNotFoundError(
+            f"Pipeline file not found. Please check the path: {path}. "
+            "You can set the path using the LOAD_PATH environment variable, "
+            "or set LOCAL_PATHS to True."
+        )
+    
     return joblib.load(path)

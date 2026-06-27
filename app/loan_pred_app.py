@@ -7,6 +7,8 @@ from pydantic import BaseModel
 
 from loan_approval_predictor.processing.data_management import load_pipeline
 
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables
 
 app = FastAPI()
 
