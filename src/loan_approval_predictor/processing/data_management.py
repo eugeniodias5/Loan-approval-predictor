@@ -19,8 +19,8 @@ def load_data(path=None):
     if path is None:
         if local_paths:
             path = DS_PATH
-    else:
-        path = os.environ.get("DS_PATH", None)
+        else:
+            path = os.environ.get("DS_PATH", None)
     
     # Check if the path is valid
     if path is None or not os.path.exists(path):
@@ -73,20 +73,21 @@ def save_pipeline(model):
     if not LOCAL_PATHS:
         path = os.environ.get("SAVE_PATH", None)
     
-    if path is None or not os.path.exists(os.path.dirname(path)):
+    if path is None:
         raise ValueError(
             "SAVE_PATH environment variable is not set or does not exist. " \
             "Please set it to the desired path for saving the model "
             "or set LOCAL_PATHS to True."
         )
-        
+
     os.makedirs(os.path.dirname(path), exist_ok=True)
     
     joblib.dump(model, path)
     
     mlflow.sklearn.log_model(
-        model, 
+        model,
         "loan_approval_model",
+        serialization_format=mlflow.sklearn.SERIALIZATION_FORMAT_CLOUDPICKLE,
         code_paths=["src/loan_approval_predictor"])
 
 
