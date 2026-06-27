@@ -1011,13 +1011,16 @@ name = "loan-predictor"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "fastapi" },
     { name = "joblib" },
     { name = "mlflow" },
     { name = "numpy" },
     { name = "pandas" },
+    { name = "pydantic" },
     { name = "pymysql" },
     { name = "scikit-learn" },
     { name = "scipy" },
+    { name = "uvicorn" },
 ]
 
 [package.dev-dependencies]
@@ -1028,13 +1031,16 @@ dev = [
 
 [package.metadata]
 requires-dist = [
+    { name = "fastapi", specifier = ">=0.136.3" },
     { name = "joblib", specifier = ">=1.5.3" },
     { name = "mlflow", specifier = ">3" },
     { name = "numpy", specifier = ">=2.4.4" },
     { name = "pandas", specifier = "<3" },
+    { name = "pydantic", specifier = ">=2.13.4" },
     { name = "pymysql", specifier = ">=1.2.0" },
     { name = "scikit-learn", specifier = ">=1.8.0" },
     { name = "scipy", specifier = ">=1.17.1" },
+    { name = "uvicorn", specifier = ">=0.48.0" },
 ]
 
 [package.metadata.requires-dev]
